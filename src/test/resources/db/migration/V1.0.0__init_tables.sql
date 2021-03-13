@@ -1,17 +1,17 @@
-CREATE TABLE atleta (
-	licencia varchar(10) NOT NULL UNIQUE,
-    nombre varchar(50) NOT NULL,
-    apellidos varchar(100) NOT NULL,
-    fecha_nacimiento varchar(10) NOT NULL,
-    fecha_alta datetime,
-	PRIMARY KEY atleta_pk(licencia)
+CREATE TABLE athlete (
+	license varchar(10) NOT NULL UNIQUE,
+    name varchar(50) NOT NULL,
+    surnames varchar(100) NOT NULL,
+    birth_date varchar(10) NOT NULL,
+    created_date datetime,
+	PRIMARY KEY atleta_pk(license)
 );
 
-CREATE TABLE competicion (
-    lugar varchar(50) NOT NULL,
-    nombre varchar(100) NOT NULL,
-    fecha datetime NOT NULL,
-    prueba varchar(20) NOT NULL,
-    marca varchar(15) NOT NULL,
-    licencia varchar(10) NOT NULL
+CREATE TABLE competition (
+    place varchar(50) NOT NULL,
+    name varchar(100) NOT NULL,
+    date datetime NOT NULL,
+    event varchar(20) NOT NULL,
+    result varchar(15) NOT NULL,
+    license varchar(10) NOT NULL
 )

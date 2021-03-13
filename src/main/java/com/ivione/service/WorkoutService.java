@@ -12,9 +12,9 @@ import javax.ws.rs.core.Response.Status;
 
 import org.jboss.logging.Logger;
 
-import com.ivione.dto.AtletaDto;
-import com.ivione.entity.Atleta;
-import com.ivione.entity.Competicion;
+import com.ivione.dto.AthleteDto;
+import com.ivione.entity.Athlete;
+import com.ivione.entity.Competition;
 
 @RequestScoped
 public class WorkoutService {
@@ -25,20 +25,20 @@ public class WorkoutService {
 	MapperService mapper;
 	
 	@Transactional
-	public Response altaAtleta(Atleta payload) {
-		LOG.infof("Servicio alta atleta %s", payload);
+	public Response newAthlete(Athlete payload) {
+		LOG.debugf("New athlete service: %s", payload);
 		
-		AtletaDto response = new AtletaDto();
-		Atleta atleta = Atleta.findById(payload.licencia);
+		AthleteDto response = new AthleteDto();
+		Athlete athlete = Athlete.findById(payload.license);
 		
-		if(atleta == null) {
-			Atleta atleta_bd = mapper.toAtleta(payload);
-			atleta_bd.persist();
+		if(athlete == null) {
+			Athlete athlete_bd = mapper.toAthlete(payload);
+			athlete_bd.persist();
 			
-			response.licencia = atleta_bd.licencia;
-			response.fechaAlta = (DateTimeFormatter.ISO_INSTANT.format(atleta_bd.fechaAlta));
+			response.license = athlete_bd.license;
+			response.createdDate = (DateTimeFormatter.ISO_INSTANT.format(athlete_bd.createdDate));
 		} else {
-			LOG.errorf("La licencia %s ya existe", payload.licencia);
+			LOG.errorf("The license %s already exists", payload.license);
 			return Response.status(Status.CONFLICT).build();
 		}
 		
@@ -46,40 +46,40 @@ public class WorkoutService {
 	}
 
 	@Transactional
-	public Response altaCompeticion(String licencia, Competicion competicion) {
-		LOG.infof("Servicio alta %s para atleta %s", competicion, licencia);
+	public Response newCompetition(String license, Competition competition) {
+		LOG.debugf("New competition %s service for athlete %s", competition, license);
 		
-		Atleta atleta = Atleta.findById(licencia);
-		if(atleta != null) {
-			Competicion competicion_bd = mapper.toCompeticion(licencia, competicion);
-			competicion_bd.persist();
+		Athlete athlete = Athlete.findById(license);
+		if(athlete != null) {
+			Competition competition_bd = mapper.toCompetition(license, competition);
+			competition_bd.persist();
 		} else {
-			LOG.errorf("El atleta %s no existe", licencia);
+			LOG.errorf("The athlete %s does not exist", license);
 			return Response.status(Status.NOT_FOUND).build();
 		}
 		
 		return Response.status(Status.CREATED).build();
 	}
 
-	public Response verAtletas() {
-		LOG.infof("Servicio consulta de atletas");
-		List<Atleta> atletas = Atleta.findAll().list();
-		return Response.status(Status.OK).entity(atletas).build();
+	public Response getAllAthletes() {
+		LOG.debugf("Get all athletes service");
+		List<Athlete> athletes = Athlete.findAll().list();
+		return Response.status(Status.OK).entity(athletes).build();
 	}
 
-	public Response verCompeticionesAtleta(String licencia) {
-		LOG.infof("Servicio consulta de competiciones para el atleta %s", licencia);
-		List<Competicion> competiciones = new ArrayList<Competicion>();
+	public Response getAllCompetitionsByAthlete(String license) {
+		LOG.debugf("Get all competitions service for athlete %s", license);
+		List<Competition> competitions = new ArrayList<Competition>();
 		
-		Atleta atleta = Atleta.findById(licencia);
-		if(atleta != null) {
-			competiciones = Competicion.find("licencia", licencia).list();
+		Athlete athlete = Athlete.findById(license);
+		if(athlete != null) {
+			competitions = Competition.find("license", license).list();
 		} else {
-			LOG.errorf("El atleta %s no existe", licencia);
+			LOG.errorf("The athlete %s does not exist", license);
 			return Response.status(Status.NOT_FOUND).build();
 		}
 		
-		return Response.status(Status.OK).entity(competiciones).build();
+		return Response.status(Status.OK).entity(competitions).build();
 	}
 
 }

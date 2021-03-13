@@ -15,7 +15,7 @@ You can run your application in dev mode that enables live coding using:
 For local mysql instance provisioning, use the following command:
 
 ```
-docker run --name myworkout -e MYSQL_ROOT_PASSWORD=admin -e MYSQL_DATABASE=myworkout -e MYSQL_USER=ivione93 -e MYSQL_PASSWORD=ivione93 -p 3306:3306 -d mysql:5.7.29
+docker run --name myworkout -e MYSQL_ROOT_PASSWORD=admin -e MYSQL_DATABASE=myworkout -e MYSQL_USER=workout -e MYSQL_PASSWORD=workout -p 3306:3306 -d mysql:8.0
 ```
 ---
 

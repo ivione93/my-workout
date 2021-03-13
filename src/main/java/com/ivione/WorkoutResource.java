@@ -14,12 +14,12 @@ import javax.ws.rs.core.Response.Status;
 
 import org.jboss.logging.Logger;
 
-import com.ivione.entity.Atleta;
-import com.ivione.entity.Competicion;
+import com.ivione.entity.Athlete;
+import com.ivione.entity.Competition;
 import com.ivione.service.WorkoutService;
 
 @RequestScoped
-@Path("/atleta")
+@Path("/workout")
 public class WorkoutResource {
 	
 	private static final Logger LOG = Logger.getLogger(WorkoutResource.class);
@@ -30,13 +30,13 @@ public class WorkoutResource {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/alta")
-    public Response altaAtleta(Atleta atleta) {
-    	LOG.infof("Alta de atleta: %s", atleta);
+	@Path("/athlete/new")
+    public Response newAthlete(Athlete athlete) {
+    	LOG.infof("Call to method newAthlete: %s", athlete);
     	try {
-			return service.altaAtleta(atleta);
+			return service.newAthlete(athlete);
 		} catch (Exception e) {
-			LOG.errorf("Error en el alta del atleta %s", atleta);
+			LOG.errorf("Error in the creation of athlete %s", athlete);
 			return Response.status(Status.INTERNAL_SERVER_ERROR).build();
 		}
     }
@@ -44,39 +44,39 @@ public class WorkoutResource {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/{licencia}/competicion")
-    public Response altaCompeticion(@PathParam("licencia") String licencia, Competicion competicion) {
-    	LOG.infof("Alta de %s para el atleta %s", competicion, licencia);
+	@Path("/athlete/{licencia}/competition")
+    public Response newCompetition(@PathParam("licencia") String license, Competition competition) {
+    	LOG.infof("Call to method newCompetition %s for athlete %s", competition, license);
     	try {
-			return service.altaCompeticion(licencia, competicion);
+			return service.newCompetition(license, competition);
 		} catch (Exception e) {
-			LOG.errorf("Error en el alta del atleta %s en competicion", licencia, competicion);
+			LOG.errorf("Error in the creation of %s for athlete %s", competition, license);
 			return Response.status(Status.INTERNAL_SERVER_ERROR).build();
 		}
     }
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/all")
-	public Response verAtletas() {
-		LOG.infof("Obteniendo atletas");
+	@Path("/athlete/all")
+	public Response getAllAthletes() {
+		LOG.infof("Call to method getAllAthletes");
 		try {
-			return service.verAtletas();
+			return service.getAllAthletes();
 		} catch (Exception e) {
-			LOG.errorf("No se ha podido conseguir el listado de atletas");
+			LOG.errorf("Error getting the listing of athletes");
 			return Response.status(Status.INTERNAL_SERVER_ERROR).build();
 		}
 	}
-	
+		
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/{licencia}/competicion/all")
-	public Response verCompeticionesAtleta(@PathParam("licencia") String licencia) {
-		LOG.infof("Obteniendo competiciones para el atleta %s", licencia);
+	@Path("/athlete/{licencia}/competition/all")
+	public Response getAllCompetitionsByAthlete(@PathParam("licencia") String license) {
+		LOG.infof("Call to method getAllCompetitionsByAthlete for athlete %s", license);
 		try {
-			return service.verCompeticionesAtleta(licencia);
+			return service.getAllCompetitionsByAthlete(license);
 		} catch (Exception e) {
-			LOG.errorf("No se ha podido conseguir el listado de competiciones para el atleta %s", licencia);
+			LOG.errorf("Error getting the listing of competitions of athlete %s", license);
 			return Response.status(Status.INTERNAL_SERVER_ERROR).build();
 		}
 	}

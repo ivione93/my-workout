@@ -4,30 +4,30 @@ import java.time.Instant;
 
 import javax.enterprise.context.RequestScoped;
 
-import com.ivione.entity.Atleta;
-import com.ivione.entity.Competicion;
+import com.ivione.entity.Athlete;
+import com.ivione.entity.Competition;
 
 @RequestScoped
 public class MapperService {
 	
-	public Atleta toAtleta(Atleta atleta) {
-		Atleta atleta_bd = new Atleta();
-		atleta_bd.licencia = atleta.licencia;
-		atleta_bd.nombre = atleta.nombre;
-		atleta_bd.apellidos = atleta.apellidos;
-		atleta_bd.fechaNacimiento = atleta.fechaNacimiento;
-		atleta_bd.fechaAlta = Instant.now();
+	public Athlete toAthlete(Athlete atleta) {
+		Athlete atleta_bd = new Athlete();
+		atleta_bd.license = atleta.license;
+		atleta_bd.name = atleta.license;
+		atleta_bd.surnames = atleta.surnames;
+		atleta_bd.birthDate = atleta.birthDate;
+		atleta_bd.createdDate = Instant.now();
 		return atleta_bd;
 	}
 	
-	public Competicion toCompeticion(String licencia, Competicion competicion) {
-		Competicion competicion_bd = new Competicion();
-		competicion_bd.licencia = licencia;
-		competicion_bd.lugar = competicion.lugar;
-		competicion_bd.nombre = competicion.nombre;
-		competicion_bd.fecha = competicion.fecha;
-		competicion_bd.prueba = competicion.prueba;
-		competicion_bd.marca = competicion.marca;
+	public Competition toCompetition(String license, Competition competicion) {
+		Competition competicion_bd = new Competition();
+		competicion_bd.license = license;
+		competicion_bd.place = competicion.place;
+		competicion_bd.name = competicion.name;
+		competicion_bd.date = competicion.date;
+		competicion_bd.track = competicion.track;
+		competicion_bd.result = competicion.result;
 		return competicion_bd;
 	}
 
